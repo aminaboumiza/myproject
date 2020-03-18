@@ -113,7 +113,7 @@ app.use(flash())
 app.use('/', index)
 app.use('/users', users)
 app.use('/videos',videos)
-
+app.use('/uploads', express.static(process.cwd() + '/uploads'));
 
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')

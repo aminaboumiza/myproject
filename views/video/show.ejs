@@ -1,0 +1,134 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>	
+
+
+<form action="/videos/show/<%= id %>" method="post" name="form1">
+
+	<div class="container">
+		<div class="row">
+		
+			
+			<div class="col s12">
+				  <div class="card ">
+					<div class="card-image waves-effect waves-block waves-light">
+						<video name="video" id="videoName"  controls width="100%" class="video-js" loop="loop" autoplay >
+							<source src="/uploads/<%= video_name %>" type="video/mp4">
+							Sorry, your browser doesn't support embedded videos.
+						</video> 
+						
+					   </div>
+					
+					
+				   </div>
+			</div>
+	   </div>
+	
+	<table width="100%" 
+		<tr >
+
+			<th style='text-align:left; background-color:#CCC'>Video Name</th>
+			<td><label><%= video_name %>"</label></td>
+		</tr>
+		<tr >
+
+			<th style='text-align:left; background-color:#CCC'>Pause Time</th>
+			<td><label><%= pause_time %>"</label></td>
+		</tr><tr >
+
+			<th style='text-align:left; background-color:#CCC'>Description</th>
+			<td><label><%= description %>"</label></td>
+		</tr>
+		<tr >
+
+			<th style='text-align:left; background-color:#CCC'>video_type</th>
+			<td><label><%= video_type %>"</label></td>
+		</tr>
+		<tr >
+
+			<th style='text-align:left; background-color:#CCC'>Siez</th>
+			<td><label><%= size %>"</label></td>
+		</tr>
+			
+	
+	
+	</table>
+	<a href="/videos">Back to list</a>
+
+</div>
+</form>
+
+
+<script type="text/javascript">
+
+
+window.onload = function settime(){
+	alert("Image is loaded");
+	//var time = document.getElementsByTagName("pause_time").value;
+	//console.log(time);
+	 var v =document.document.getElementById("videoName");
+	v.addEventListener("timeupdate", function(){
+	v.currentTime = 10;
+	v.play();
+	console.log(v.currentTime);
+    // seconds = the actual time that the player seeked to
+ 
+
+}
+// 	window.onload = codeAddress;
+
+	//var v = document.getElementsByTagName("video")[0];
+
+// function codeAddress() {
+// 	var time = document.getElementsByTagName("vidName").value;
+// 		console.log(time);
+// 		v.addEventListener("seeked", function() { v.play(); }, true);
+// 		v.currentTime = time;
+		
+//         }
+	/*
+		var v = document.getElementsByTagName("video");
+		v.addEventListener("timeupdate", function(data){
+		v.currentTime = 10;
+		console.log("this is current time event ");
+		console.log(10);
+	});
+	*/
+
+
+
+
+		// v.addEventListener("timeupdate", function(data){
+		// console.table(data );
+		// var x=data.timeStamp;
+		// // document.cookie = x;
+	  	// localStorage.setItem("time",x);
+		// // document.cookie = 'time=' + x;
+		//  console.log(x)
+		//  document.getElementById("vidName").value = x;
+
+
+
+
+		// });
+		// var inputVal = document.getElementById("vidName").value;
+		// console.log(v.currentTime);
+		// console.log(y);
+		// v.currentTime = y;
+		//  var y=localStorage.getItem('time');
+		// myVid = document.getElementById('videoName');
+		// myVid.addEventListener('canplay', function() {
+    	// this.timeStamp = y;
+		//});
+		//document.getElementById('vidName').innerHTML = x;
+		//Dom.get("vidName").set("value",x);
+	
+		// document.getElementById('vidName').addEventListener('loadedmetadata', function() {
+  		// 	this.currentTime = 50;
+		// 	}, true);
+</script>
+
+
+
+<%- include ../layouts/footer.ejs %>

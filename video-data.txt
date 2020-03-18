@@ -1,0 +1,61 @@
+function playVideo() {
+    var starttime = 2;  // start at 2 seconds
+    var endtime = 4;    // stop at 4 seconds
+
+    var video = document.getElementById('player1');
+
+    //handler should be bound first
+    video.addEventListener("timeupdate", function() {
+       if (this.currentTime >= endtime) {
+            this.pause();
+        }
+    }, false);
+
+    //suppose that video src has been already set properly
+    video.load();
+    video.play();    //must call this otherwise can't seek on some browsers, e.g. Firefox 4
+    try {
+        video.currentTime = starttime;
+    } catch (ex) {
+        //handle exceptions here
+    }
+}
+
+
+
+
+/**some options video
+https://blog.addpipe.com/10-advanced-features-in-html5-video-player/
+
+Fitting portrait videos in landscape players using object-fit
+
+
+Accessing more functionality through JavaScript
+
+
+
+
+https://github.com/vimeo/player.js/
+
+
+https://books.google.tn/books?id=fV0nCgAAQBAJ&pg=PA109&lpg=PA109&dq=getstartdate()+use+javascript+video+stream&source=bl&ots=uGpsDurJWD&sig=ACfU3U0QOhCc72xPuwm5rTBLsrGF944Zrw&hl=fr&sa=X&ved=2ahUKEwicob--iJXoAhV3AWMBHSCHDmEQ6AEwAHoECAoQAQ#v=onepage&q=getstartdate()%20use%20javascript%20video%20stream&f=false
+
+
+
+
+
+
+****/***** function grabScreenshot() {
+  ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+  var img = new Image();
+  img.src = canvas.toDataURL("image/png");
+  img.width = 120;
+  ssContainer.appendChild(img);
+}
+
+
+
+
+https://github.com/vimeo/player.js/
+
+
