@@ -1,16 +1,26 @@
 <html>
 	<head>
 		<title><%= title %></title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-		 
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	</head>
+	<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<body>
-		<div>
-			<a href="/">Home</a> | 
-			<a href="/users/add">Add New User</a> | 
-			<a href="/users">All Users List</a>
-			<a href="/videos/add">Add New video</a> | 
-			<a href="/videos">All videos List</a>
-		</div>	
+
+		<nav>
+			<div class="nav-wrapper">
+			  <a href="#" class="brand-logo">Logo</a>
+			  <ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="/">Home</a></li>
+				<li><a href="/users/add">Add User</a></li>
+				<li><a href="/users">Users List</a></li>
+				<li><a href="/videos/add">Add Video</a></li>
+				<li><a href="/videos">Videos List</a></li>
+			  </ul>
+			</div>
+		  </nav>
+			
 		<h1><%= title %></h1>

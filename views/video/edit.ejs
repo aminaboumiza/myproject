@@ -3,26 +3,81 @@ including header content which is common for all pages
 -->
 <%- include ../layouts/header.ejs %>	
 
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+<button id = "button">take picture from video</button>
 
 <form action="/videos/edit/<%= id %>" method="post" name="form1">
-	<table width="25%" border="0">
-		<tr> 
-			<td><input type="hidden" name="video_name" id="video_name" value="<%= video_name %>" /></td>
-		</tr>
-		<tr> 
+	<div class="container">
+		<div class="row">
+		
+			
+			
+	<table width="25%" border="0"></table>
+	
+		<tr class="input-field col s6"> 
             <video name="video" id="videoName"  controls width="100%" class="video-js" loop="loop"  >
-                <source src="/video.mp4" type="video/mp4">
-                Sorry, your browser doesn't support embedded videos.
+                <source src="../../uploads/<%= video_name %>" type="video/mp4">
+					Sorry, your browser doesn't support embedded videos.
             </video>
 		</tr>
-		<tr> 
-			<td><input type="hidden" id="vidName" name="pause_time" value="<%= pause_time %>" /></td>
+		<tr>
+			<div id="thumbnailContainer"></div>
+
 		</tr>
-		<tr> 
+		<tr class="input-field col s6"> 
+			<td><input  id="video_name" name="video_name" value="<%= video_name %>" />
+				<label for="video_Name">Video Name</label>
+			</td>
+		</tr>
+		<tr class="input-field col s6"> 
+			<td><input  id="vidName" name="pause_time" value="<%= pause_time %>" />
+				<label for="vidName">Pause time</label>
+			</td>
+		</tr>
+		<tr class="input-field col s6"> 
+			<td><input  id="description" name="description" value="<%= description %>" />
+				<label for="description">description</label>
+			</td>
+		</tr>
+		<tr class="input-field col s6"> 
+			<td>
+
+				
+					<input  type="text" class="validate"  id="vidType" name="video_type" value="<%= video_type %>">
+					  <label for="vidType">vidType</label>
+				  
+			</td>
+		</tr>
+		<tr class="input-field col s6"> 
+				<td>
+					<input  type="text" class="validate"  id="size" name="size" value="<%= size %>">
+					  <label for="size">size</label>
+				  </td>
+		</tr>
+		<tr class="input-field col s6"> 
+			
 			<td></td>
-			<td><input type="submit" name="Submit" value="Edit" /></td>
 		</tr>
 	</table>
+	<div>
+		<div class="card-content   large right ">
+			<span class="card-title activator grey-text text-darken-4 ">
+		
+		<input class="btn waves-effect waves-light green" type="submit" name="Submit" value="Edit" />
+
+	</span>
+	</div>
+	</div>
+
+	
+	</div>
+	</div>
 	<div id="vidVar"></div>
 	<input type="hidden" name="_method" value="PUT" />
 </form>
@@ -39,12 +94,14 @@ including header content which is common for all pages
 */
 		var v = document.getElementsByTagName("video")[0];
 		v.addEventListener("timeupdate", function(data){
-		console.table(data );
+			generateThumbnail();
+
+		//console.table(data );
 		var x=data.timeStamp;
 		// document.cookie = x;
 	  	localStorage.setItem("time",x);
 		// document.cookie = 'time=' + x;
-		 console.log(x)
+		// console.log(x)
 		 document.getElementById("vidName").value = x;
 		// });
 		// var inputVal = document.getElementById("vidName").value;
@@ -56,12 +113,34 @@ including header content which is common for all pages
 		// myVid.addEventListener('canplay', function() {
     	// this.timeStamp = y;
 		});
+
+
 		//document.getElementById('vidName').innerHTML = x;
 		//Dom.get("vidName").set("value",x);
 	
 		// document.getElementById('vidName').addEventListener('loadedmetadata', function() {
   		// 	this.currentTime = 50;
 		// 	}, true);
+    var $image = $("#capturedimage");
+    var video = $("#videoName").get(0);
+	var i = 0;
+
+
+var thecanvas = document.createElement("canvas");
+function generateThumbnail() {     
+    //generate thumbnail URL data
+	
+    var context = thecanvas.getContext('2d');
+    context.drawImage(video, 0, 0, 220, 150);
+    var dataURL = thecanvas.toDataURL();
+console.log(dataURL);
+    //create img
+    var img = document.createElement('img');
+    img.setAttribute('src', dataURL);
+     console.log(img);
+    //append img in container div
+    document.getElementById('thumbnailContainer').appendChild(img);
+}
 </script>
 
 <!--
