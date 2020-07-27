@@ -1,0 +1,151 @@
+<%- include ../layouts/header.ejs %>
+<link rel="stylesheet" type="text/css" href="/assets/dist/jquery.quiz-min.css" />
+<style>
+    .answers a {
+        background: #dcd8e8;
+    }
+</style>
+<div class="bradcam_area breadcam_bg overlay2">
+    <h3>Quiz</h3>
+</div>
+<div class="popular_courses plus_padding">
+    <div class="container">
+        <div class="row">
+            <div id="quiz">
+                <div id="quiz-header">
+                    <h1>Welcome to test of <%- chap.title%></h1>
+                    <!-- Optionally add a home button -->
+                    <p><a id="quiz-home-btn"><%- chap.description%></a></p>
+                </div>
+                <div id="quiz-start-screen">
+                    <p><a href="#" id="quiz-start-btn" class="quiz-button">Start</a></p>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="certif_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div> -->
+<div class="modal fade" id="certif_modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="card">
+            <div class="text-right cross"> <i class="fa fa-times"></i> </div>
+            <div class="card-body text-center"> <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">
+                <h3>CONGRATULATIONS! <span id="modal_user_name"></span></h3>
+                <h4>You got a<span id="modal_formation_name"></span> certificate</h4>
+                <blockquote class="blockquote">
+                    <p class="mb-0">The talent of success is nothing more than doing what you can do well; and doing well whatever you do.”</p>
+                    <footer class="blockquote-footer">Henry Wadsworth</footer>
+                  </blockquote>
+                 <button class="btn btn-out btn-square continue">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include ../layouts/footer.ejs %>
+<script src="/assets/dist/jquery.quiz-min.js"></script>
+<script>
+    var questions = <%- JSON.stringify(questions) %>;
+    console.log("les question sont",questions);
+    var chap = <%- JSON.stringify(chap) %>;
+    console.log(chap);
+    var stat = "<%- stat %>";
+    console.log(stat);
+    var formation_id = chap.formation_id;
+    var data_qst = [];
+    
+    questions.forEach(function(el, index) {
+        //console.log(el);
+        var list_options = [];
+        var option_correct_index = 0;
+        el.reponses.forEach(function(el_resp, index_resp) {
+            console.log(el_resp);
+            list_options[index_resp] = el_resp.reponse;
+            if(el_resp.valide === true){
+                option_correct_index = index_resp;
+            }
+        })
+        console.log("list options")
+        console.log(list_options)
+        data_qst[index] = {
+            q: el.title,
+            options: list_options ,
+            correctIndex: option_correct_index
+        };
+    });
+    console.log("list data_qst")
+    console.log(data_qst);
+    $('#quiz').quiz({
+        questions: data_qst,
+        resultsFormat: 'You got <span id="correct_answer">%score</span> out of <span id="total">%total</span> correct!',
+        finishCallback:function(){
+            
+            var chapitre_id = chap.id;
+            var score = $("#correct_answer").text();
+            console.log(score);
+            $.ajax({
+            type: "POST",
+            url: "/chapitre/score",
+            data: {"chapitre_id":chapitre_id, "score":score}
+            }).done(function(data) {
+                console.log("ok")
+            });        
+        }
+
+    });
+    $(document).on("click", "#quiz-restart-btn", function(e){
+        e.preventDefault();
+        console.log("clicked");
+        window.location.replace("/formation/show/"+formation_id);
+        //redirect('formation/show/5');
+    });
+    $(document).on("click", "#quiz-finish-btn", function(e){
+        e.preventDefault();
+        if(stat == "final"){
+            console.log("clicked final finish");
+            
+            $.ajax({
+                type: "GET",
+                url: "/formation/"+formation_id+"/score"
+            }).done(function(data) {
+                console.log("ok")
+                if (data.certificat == 1){
+                    // var certif_modal = '<div class="modal fade" id="certif_modal" role="dialog">';
+                    // certif_modal += '<div class="modal-dialog">';
+                    // certif_modal += '<div class="card">';
+                    // certif_modal +='<div class="text-right cross"> <i class="fa fa-times"></i> </div>';
+                    // certif_modal += '<div class="card-body text-center"> <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">';
+                    // certif_modal += '<h4>CONGRATULATIONS!'+ data.user_name +'</h4>';
+                    // certif_modal += '<p>You have been personally selected to take part in our 2017 annual visitors survey!</p> <button class="btn btn-out btn-square continue">CONTINUE</button>';
+                    // certif_modal += '</div></div></div></div>';
+                    $("#modal_user_name").html(data.user_name);
+                    $("#modal_formation_name").html(data.formation_name);
+                    $('#certif_modal').modal('show');
+                }
+            }); 
+
+        }
+        
+    });
+   
+    
+</script>

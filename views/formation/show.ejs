@@ -1,0 +1,407 @@
+<%- include ../layouts/header.ejs %>	
+  
+     <!-- bradcam_area_start -->
+    <div class="courses_details_banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="course_text">
+                           <h3><%-formations.title  %></h3>
+                           <div class="row description"><%- formations.description %></div>
+
+                           <div class="hours">
+                               <div class="video">
+                                    <div class="single_video">
+                                           <i class="fa fa-play-circle-o"></i> <span><%- numbre_chapitre %>  Videos</span>
+                                    </div>
+                                    <div class="single_video">
+                                           <i class="fa fa-clock-o"
+                                           ></i> <span>3 Hours</span>
+                                    </div>
+                                  
+                               </div>
+                           </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+   <!-- bradcam_area_end -->
+
+   <div class="courses_details_info">
+       <div class="container">
+           <div class="row">
+               <div class="col-xl-9 col-lg-9">
+                   <div class="single_courses">
+                       <h3>Chapitres</h3>
+                   </div>
+                   
+                   <div >
+                        <div id="accordion">
+                            <% formations.chapitres.forEach(function(chapitre, i) { %>
+                               
+                                
+                                <div class="card">
+                                    <div class="card-header" id="heading<%- chapitre.id %>">
+                                        <h5 class="mb-0">
+                                            <% if( i == 0 || (i>0 && formations.chapitres[i-1].user_chapitre_scores.length > 0) ){ %>
+                                                <button id="btn_chap<%- i %>" class="btn btn-link collapsed"  data-chap_id="<%- chapitre.id %>"  data-toggle="collapse" data-target="#<%- chapitre.id %>" aria-expanded="false" aria-controls="<%- chapitre.id%>">
+                                                    <i class="flaticon-left-arrow"></i> Chapitre <%- i +1 %> : <%- chapitre.title %>
+                                                </button>
+                                            <% } else { %> 
+                                                <button id="btn_chap<%- i %>" class="btn btn-link collapsed" data-chap_id="<%- chapitre.id %>" disabled data-toggle="collapse" data-target="#<%- chapitre.id %>" aria-expanded="false" aria-controls="<%- chapitre.id%>">
+                                                    <i class="flaticon-left-arrow"></i> Chapitre <%- i +1 %> : <%- chapitre.title %>
+                                                </button> 
+                                                
+                                            <% } %>
+                                            
+                                        </h5>
+                                    </div>
+                                    <div id="<%- chapitre.id %>" class="collapse" aria-labelledby="heading<%- chapitre.id %>" data-parent="#accordion">
+                                        
+
+                                        <div class="card-body">
+                                            <%- chapitre.description %>
+                                        </div>
+                                        <video data-played_time="0" data-started_time="0" id="video_chapitre<%- chapitre.id %>" class="chap_video_cl" data-id_chapitre="<%- chapitre.id %>" data-chap_index="<%- i %>"  width="100%" height="100%" controls>
+                                        <source src='<%-videoPathChapitre%>/<%- chapitre.video_name %> ' type="video/mp4">
+                                        Your browser does not support the video tag.
+                                        </video>
+                                        <div class="prise" id="test<%- i %>" style="display:none;">
+                                            
+                                            <% if( formations.chapitres.length == i+1 ){ %>
+                                                <a class="genric-btn primary-border circle arrow" href='/formation/test/final/<%= chapitre.id %>'>start the test
+                                                    <span class="lnr lnr-arrow-right"></span>
+                                                </a>
+                                            <% } else { %> 
+                                                <a class="genric-btn primary-border circle arrow" href='/formation/test/progress/<%= chapitre.id %>'>start the test
+                                                    <span class="lnr lnr-arrow-right"></span>
+                                                </a> 
+                                                
+                                            <% } %>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            <% }); %>
+                                   
+                        </div>
+                   </div>
+               </div>
+              
+           </div>
+       </div>
+   </div>
+   <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+  
+   
+   <!------ Include the above in your HEAD tag ---------->
+   
+  
+
+   <div class="container bootstrap snippets page_bloc">
+    <div class="col-md-9 col-md-offset-2 col-sm-12">
+        <div class="comment-wrapper">
+            <div class="bloc_comment">
+                <div class="comment-heading">
+                    <h3>Comments</h3>
+                </div>
+                <div class="comment-body">
+                    <textarea class="form-control" name="addComment" id="addComment" placeholder="Your comment..." rows="3"></textarea>
+                    <br>
+                    <div class="form-group bloc_btn_comment">
+                        <button type="button" class="btn btn-info" id="submitComment">Comment</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-success" role="alert" id="success_comment" style="display: none;">
+                        Your comment is added with success.
+                    </div>
+                    <div class="alert alert-danger" role="alert" id="error_comment"  style="display: none;">
+                         Error , check your comment please.
+                    </div>
+                    <hr>
+                    <ul class="media-list" id="list_comment">
+                        <% formations.formation_comments.forEach(function(comment, i) { %>
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted"><%- moment(comment.date_update).format( 'DD-MM-YYYY HH:mm')  %> </small>
+                                </span>
+                                <strong class="text-success"><%- comment.user.name %></strong>
+                                <p>
+                                    <%- comment.comment %>
+                                </p>
+                            </div>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+
+   <!-- testimonial_area_start -->
+   <div class="testimonial_area testimonial_bg_1 overlay">
+       <div class="testmonial_active owl-carousel">
+           <div class="single_testmoial">
+               <div class="container">
+                   <div class="row">
+                       <div class="col-xl-12">
+                           <div class="testmonial_text text-center">
+                               <div class="author_img">
+                                   <img src="img/testmonial/author_img.png" alt="">
+                               </div>
+                               <p>
+                                   "Working in conjunction with humanitarian aid <br> agencies we have supported
+                                   programmes to <br>
+                                   alleviate.
+                                   human suffering.
+
+                               </p>
+                               <span>- Jquileen</span>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <div class="single_testmoial">
+               <div class="container">
+                   <div class="row">
+                       <div class="col-xl-12">
+                           <div class="testmonial_text text-center">
+                               <div class="author_img">
+                                   <img src="img/testmonial/author_img.png" alt="">
+                               </div>
+                               <p>
+                                   "Working in conjunction with humanitarian aid <br> agencies we have supported
+                                   programmes to <br>
+                                   alleviate.
+                                   human suffering.
+
+                               </p>
+                               <span>- Jquileen</span>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   <!-- testimonial_area_end -->
+
+   
+  
+
+<%- include ../layouts/footer.ejs %>
+
+<script type="text/javascript" >
+var socket = io.connect('http://localhost:3000');
+var numbre_chapitre = <%- numbre_chapitre %>;
+var user_session = <%- JSON.stringify(user_session) %>;
+var user_id = user_session.id;
+var formations = <%- JSON.stringify(formations) %>;
+console.log(formations);
+$(function(){
+
+    // init
+    last_played_vid_chap_id = 0;
+    
+    function videoStoppedPlaying(current_video) {
+        timeStarted = $(current_video).attr("data-started_time");
+        timePlayed = parseInt($(current_video).attr("data-played_time"));
+        // Start time less then zero means stop event was fired vidout start event
+        if(timeStarted>0) {
+            var playedFor = new Date().getTime()/1000 - timeStarted;
+            timeStarted = 0;
+            // add the new ammount of seconds played
+            timePlayed+=Math.round(playedFor);
+            console.log("timeStarted>0", timePlayed);
+        }
+        //document.getElementById("played").innerHTML = Math.round(timePlayed)+"";
+        console.log("timePlayed videoStoppedPlaying", Math.round(timePlayed));
+        $(current_video).attr("data-played_time", Math.round(timePlayed));
+    }
+
+    // update video start time to last saved watched time
+    formations.chapitres.forEach(function(chapitre, i) {
+        
+        var userChapHistArray = formations.chapitres[i].user_chapitre_histories;
+        userChapHistArray.sort((a, b) => (a.id > b.id) ? 1 : -1);
+        console.log(userChapHistArray);
+        if(userChapHistArray.length > 0) {
+            // document.getElementById("video_chapitre"+chapitre.id).addEventListener("loadedmetadata", function() {
+            //     var video_current_time = userChapHistArray[userChapHistArray.length - 1].elapsed_video_time;
+            //     console.log("current time",chapitre.id, video_current_time);
+            //     this.currentTime = video_current_time;
+            // }, false);
+            var video_current_time = userChapHistArray[userChapHistArray.length - 1].elapsed_video_time;
+            var vid = document.getElementById("video_chapitre"+chapitre.id);
+            console.log("current time",chapitre.id, Math.floor( video_current_time ));
+            vid.currentTime = Math.floor( video_current_time );
+        }
+    });
+    
+    //activate test button
+    $('.chap_video_cl').on('ended',function(e){
+        videoStoppedPlaying(this);
+        var chap_index = $(this).attr("data-chap_index");
+        $("#test"+chap_index).show();
+        last_played_vid_chap_id = $(this).attr("data-id_chapitre");
+        playedTime = parseInt($(this).attr("data-played_time"));
+        console.log('Video has ended!',chap_index);
+        //console.log('timeTracking',timeTracking);
+        $.ajax({
+            type: "POST",
+            url: "/chapitre/played",
+            data: {"chapitre_id":last_played_vid_chap_id,"playedTime":playedTime}
+        })
+        
+    });
+    $('.chap_video_cl').on('pause',function(e){
+        videoStoppedPlaying(this);
+        var current_vid_chap_id = $(this).attr("data-id_chapitre");
+        var vid = document.getElementById("video_chapitre"+last_played_vid_chap_id);
+        var currentTime = vid.currentTime;
+        console.log("paused",vid.duration);
+        if(currentTime == vid.duration){
+            currentTime = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/chapitre/history",
+            data: {"chapitre_id":current_vid_chap_id,"currentTime":currentTime}
+        });
+        // playedTime = parseInt($(this).attr("data-played_time"));
+        // //console.log('Video has ended!',chap_index);
+        // //console.log('timeTracking',timeTracking);
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/chapitre/played",
+        //     data: {"chapitre_id":current_vid_chap_id,"playedTime":playedTime}
+        // })
+    });
+    
+    $('.chap_video_cl').on('playing',function(){
+        timeStarted_video = new Date().getTime()/1000;
+        $(this).attr("data-started_time", timeStarted_video);
+        console.log("timeStarted_video playing", timeStarted_video);
+        last_played_vid_chap_id = $(this).attr("data-id_chapitre");
+        console.log('last_played_vid_chap_id!',last_played_vid_chap_id);
+    });
+    $('.chap_video_cl').on('seeking',function(){
+        timeStarted_video = new Date().getTime()/1000;
+        $(this).attr("data-started_time", timeStarted_video);
+        this.pause();
+        console.log("timeStarted seeking", timeStarted_video);
+    });
+
+    $('.chap_video_cl').on('play',function(){
+        timeStarted_video = new Date().getTime()/1000;
+        $(this).attr("data-started_time", timeStarted_video);
+        console.log("timeStarted play", timeStarted_video);
+    });
+   
+    
+    
+    // save video time on window close
+    window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        var vid = document.getElementById("video_chapitre"+last_played_vid_chap_id);
+        if (vid.paused) {
+            return;
+        }
+        var currentTime = vid.currentTime;
+        if(currentTime == vid.duration){
+            currentTime = 0;
+        }
+    
+        $.ajax({
+            type: "POST",
+            url: "/chapitre/history",
+            data: {"chapitre_id":last_played_vid_chap_id,"currentTime":currentTime}
+        });
+        
+    });
+    // video first start
+    // $('.chap_video_cl').one('play',function(){
+    //     var video_index = $(this).attr("data-chap_index");
+    //     var chapitre_id = formations.chapitres[video_index].id;
+    //     var userChapHist = formations.chapitres[video_index].user_chapitre_histories;
+    //     if(userChapHist.length == 0) {
+    //         socket.emit('first_video_play', {"id_formation":formations.id,"id_chapitre":chapitre_id, "user_id":user_id});
+    //     }
+        
+    // });
+    // send socket if video seeked by user
+    $('.chap_video_cl').on('seeked',function(){
+        var video_index = $(this).attr("data-chap_index");
+        var chapitre_id = formations.chapitres[video_index].id;
+        var vid = document.getElementById("video_chapitre"+chapitre_id);
+        var currentTime = vid.currentTime;
+        console.log('le chapitre en cours d avancement est ',chapitre_id);
+        socket.emit('video_seeked', {"id_formation":formations.id,"id_chapitre":chapitre_id, "user_id":user_id, "video_time":currentTime});
+    });
+    // submit comment
+    $(document).on("click","#submitComment", function(e){
+        e.preventDefault();
+        $("#success_comment").hide()
+        $("#error_comment").hide()
+        var comment = $("#addComment").val();
+        if($.trim(comment) == ''){
+
+            $("#error_comment").show();
+            setTimeout(function(){ 
+                $("#error_comment").hide();
+            }, 5000);
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/formation/comment",
+            data: {"formation_id":formations.id, "user_id":user_id, "comment":comment}
+        }).done(function( data ) {
+            if(data.saved == 'ok'){
+                console.log(data);
+                $("#addComment").val("");
+                $("#success_comment").show();
+                setTimeout(function(){ 
+                    $("#success_comment").hide();
+                }, 5000);
+                socket.emit('new_formation_comment', data.inserted_comment);
+            }
+            
+        });
+        
+
+    });
+
+    socket.on('formation_comment_notif', function(data) {
+        var new_comment = '<li class="media">';
+            new_comment += '<a href="#" class="pull-left">';
+            new_comment += '<img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">';
+            new_comment += '</a>';
+            new_comment += '<div class="media-body">';
+            new_comment += '<span class="text-muted pull-right">';
+            new_comment += '<small class="text-muted">'+ moment(data.date_update).format( 'DD-MM-YYYY HH:mm')+'</small>';
+            new_comment += '</span>';
+            new_comment += '<strong class="text-success">'+data.user.name+'</strong>';
+            new_comment += '<p>'+ data.comment +'</p></div></li>';                
+        $("#list_comment").prepend(new_comment);
+    });
+
+});
+
+// socket.emit('new_client', 'new client view video');
+// socket.on('message', function(data) {
+// alert('Le serveur a un message pour vous : ' + data);
+// });
+  
+</script>

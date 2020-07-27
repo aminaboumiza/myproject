@@ -1,0 +1,130 @@
+<%- include ../layouts/header.ejs %>	
+  <div class="bradcam_area breadcam_bg overlay2">
+    <h3>Our Courses</h3>
+  </div>
+    <!-- popular_courses_start -->
+    <div class="popular_courses plus_padding">
+      <div class="container">
+          <!-- <div class="row">
+              <div class="col-xl-12">
+                  <div class="section_title text-center mb-100">
+                      <h3>Our Courses</h3>
+                  </div>
+              </div>
+          </div> -->
+          <div class="row">
+              <div class="col-xl-12">
+                  <div class="course_nav">
+                      <nav>
+                          <ul class="nav" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                  <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab"
+                                      aria-controls="all" aria-selected="true">All Courses</a>
+                              </li>
+                              <% categories.forEach(function(category) { %>
+
+                              <li class="nav-item">
+                                  <a class="nav-link" id="<%- category.id %>-tab" data-toggle="tab" href="#<%- category.id %>" role="tab"
+                                      aria-controls="<%- category.id %>" aria-selected="false"><%- category.title %></a>
+                              </li>
+                              <% }); %>
+
+                          </ul>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+      <div class="all_courses">
+          <div class="container">
+              <div class="tab-content" id="myTabContent">
+                    <!-- All courses --> 
+                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="row">
+                        <% categories.forEach(function(category) { %>
+                          <% category.formations.forEach(function(formation) { %>
+                                <div class="col-xl-4 col-lg-4 col-md-6">
+                                    <div class="single_courses">
+                                        <div class="thumb">
+                                            <a href='/formation/show/<%= formation.id %>'>
+                                                <img src='<%- videoPath+formation.video_name %>' alt="">
+                                            </a>
+                                        </div>
+                                        <div class="courses_info">
+                                            <h3><%- formation.title %></h3>
+                                            <span><%- formation.description %></span>
+                                            <div class="star_prise d-flex justify-content-between">
+                                                <div class="star">
+                                                    <i class="flaticon-mark-as-favorite-star"></i>
+                                                    <span>(4.5)</span>
+                                                </div>
+                                                <div class="prise">
+                                                    <a class="genric-btn primary-border circle arrow" href='/formation/show/<%= formation.id %>'>show
+                                                        <span class="lnr lnr-arrow-right"></span>
+                                                        </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            <% }); %>
+                                <div class="col-xl-12">
+                                    <div class="more_courses text-center">
+                                        <a href="#" class="boxed_btn_rev">More Courses</a>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                    <!-- FIN All courses -->
+                <% categories.forEach(function(category) { %>
+                <div class="tab-pane fade" id="<%- category.id %>" role="tabpanel" aria-labelledby="<%- category.id %>-tab">
+                          <div class="row">
+                            <% category.formations.forEach(function(formation) { %>
+
+                                  <div class="col-xl-4 col-lg-4 col-md-6">
+                                      <div class="single_courses">
+                                          <div class="thumb">
+                                              <a href='/formation/show/<%= formation.id %>'>
+                                                  <img src='<%- videoPath+formation.video_name %>' alt="">
+                                              </a>
+                                          </div>
+                                          <div class="courses_info">
+                                              <span><%- formation.title %></span>
+                                              <h3><%- formation.description %>
+                                              </h3>
+                                              <div class="star_prise d-flex justify-content-between">
+                                                  <div class="star">
+                                                      <i class="flaticon-mark-as-favorite-star"></i>
+                                                      <span>(4.5)</span>
+                                                  </div>
+                                                  <div class="prise">
+                                                      <a class="genric-btn primary-border circle arrow" href='/formation/show/<%= formation.id %>'>show
+                                                          <span class="lnr lnr-arrow-right"></span>
+                                                          </a>
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <% }); %>
+                                  <div class="col-xl-12">
+                                      <div class="more_courses text-center">
+                                          <a href="#" class="boxed_btn_rev">More Courses</a>
+                                      </div>
+                                  </div>
+                              </div>
+                  </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+    </div>
+                  
+
+
+
+  <%- include ../layouts/footer.ejs %>

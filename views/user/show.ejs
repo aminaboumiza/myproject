@@ -1,0 +1,122 @@
+<%- include ../layouts/header.ejs %>
+<style>
+    #save{
+        margin-bottom: 10px;
+    }
+</style>
+<div class="profile-header-details profil-header">
+    <div class="container">
+        <div class="row profil-row" >
+            <div class="col-md-9">
+                <div class="course_text">
+                    <img src="/assets/img/amina.jpg"  alt="" class="rounded-circle profile-img">
+                    <div class="row description"></div>
+
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+
+<section class="contact-section">
+    <div class="container">
+        <div class="row" >
+            <div class="col-12">
+            <!-- <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                </li>
+            </ul> -->
+            <h3>Profile</h3>
+            <div class="p-b-3">
+                <!-- <div class="tab-pane active" id="profile">
+                    <h4 class="col-lg-9"><%- user.name %></h4>
+                    <h4 class="col-lg-9"><%- user.email %></h4>
+                </div> -->
+                <div class="" id="edit">
+                    <!-- <h4 class="m-y-2">Edit Profile</h4> -->
+                    <form role="form">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="email" type="email" name="email" value='<%- user.email %>' disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"> Name</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="name"  name="name" type="text" required value='<%- user.name %>'>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Password</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" id="password" name="password" type="password" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="button" id="save" class="btn btn-primary" value="Save Changes">
+                                <div class="alert alert-success" role="alert" id="success_edit" style="display: none;">
+                                    Votre profil est mis à jour avec succès.
+                                </div>
+                                <div class="alert alert-danger" role="alert" id="error_edit"  style="display: none;">
+                                    Une erreur est survenue, veuillez vérifier vos informations.
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include ../layouts/footer.ejs %>
+<script type="text/javascript" >
+$(function(){
+    
+       
+    $(document).on("click","#save", function(e){
+
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var password = $("#password").val();
+        password = $.trim(password);
+
+        if($.trim(name) == ''){
+            $("#error_edit").show();
+            setTimeout(function(){ 
+            $("#error_edit").hide();
+            }, 5000);
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/profile/edit",
+            data: {"name":name, "password":password}
+            }).done(function( data ) {
+                console.log('done');
+                if(data.saved == 'ok'){
+                    $("#success_edit").show();
+                    setTimeout(function(){ 
+                        $("#success_edit").hide();
+                    }, 5000);
+                }else{
+                    $("#error_edit").show();
+                    setTimeout(function(){ 
+                    $("#error_edit").hide();
+                }, 5000);
+                }
+            });
+    });
+});
+</script>

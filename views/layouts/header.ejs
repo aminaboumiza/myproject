@@ -1,26 +1,102 @@
-<html>
-	<head>
-		<title><%= title %></title>
-		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!doctype html>
+<html class="no-js" lang="zxx">
 
-	</head>
-	<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Tunisia MOOC</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/gijgo.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+</head>
+<body>
+    <style>
+       .dropdown-menu{
+           width: 200px;
+       }
+    </style>   
+         <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
 
-		<nav>
-			<div class="nav-wrapper">
-			  <a href="#" class="brand-logo">Logo</a>
-			  <ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="/">Home</a></li>
-				<li><a href="/users/add">Add User</a></li>
-				<li><a href="/users">Users List</a></li>
-				<li><a href="/videos/add">Add Video</a></li>
-				<li><a href="/videos">Videos List</a></li>
-			  </ul>
-			</div>
-		  </nav>
-			
-		<h1><%= title %></h1>
+    <!-- header-start -->
+    <header>
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo-img">
+                                <a href="/home">
+                                    <img src="/assets/img/form-logo.png" class="img-fluid" alt="logo">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-7 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a  href="/home">home</a></li>
+                                        <li><a href="/formation">Courses</a></li>
+                                        <li><a href="/about">About</a></li>
+                                        <li><a href="/contact">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="log_chat_area d-flex align-items-center">
+                                 
+                                <% if(user_session) { %> 
+                                    <a class="nav-item dropdown ">
+                                        <a class="nav-link dropdown-toggle boxed_btn_orange"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <%= (user_session.email) %>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                          <a class="dropdown-item" href='/profile'>My Profile</a>
+                                          <a class="dropdown-item" href="/library">My Library</a>
+                                          <div class="dropdown-divider"></div>
+                                          <a class="dropdown-item" href="/logout">Logout</a>
+                                          
+                                        </div>
+                                      </a>
+                                
+                                <% }else{ %>
+                                    <div class="live_chat_btn">
+                                        <a class="boxed_btn_orange login" href="/register">
+                                            <span>Register</span>
+                                        </a>
+                                        <a class="boxed_btn_orange login" href="/login">
+                                            <span>Login</span>
+                                        </a>
+                                    </div>
+                                <% } %> 
+                             
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->

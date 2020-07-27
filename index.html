@@ -1,0 +1,47 @@
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+    </head>
+ 
+    <body>
+        <h1>Communication avec socket.io !</h1>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            // var socket = io.connect('http://localhost:3000');
+            var socket = io();
+            var send = function(){
+                var text = document.getElementById('m').value;
+                socket.emit('chat message',text);
+            }
+        </script>
+        <div>
+            <ul id="messages"></ul>
+            <div>
+                <input id="m"/><button onclick="send()">Send</button>
+            </div>
+        </div>
+    </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Socket.io</title>
+    </head>
+ 
+    <body>
+        <h1>Communication avec socket.io !</h1>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:3000');
+            socket.emit('new_client', 'new client view video');
+            socket.on('message', function(data) {
+            alert('Le serveur a un message pour vous : ' + data);
+        });
+        </script>
+    </body>
+</html>

@@ -13,7 +13,7 @@ var ffmpegPath = './node_modules/ffmpeg-binaries/bin/ffmpeg.exe';
 
 app.get('/', function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM videos ORDER BY id DESC',function(err, rows, fields) {
+		conn.query('SELECT * FROM formations ORDER BY id DESC',function(err, rows, fields) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
@@ -30,15 +30,8 @@ app.get('/', function(req, res, next) {
 			}
 		})
 	})
-})
+});
 
-// const tg = new ThumbnailGenerator({
-// 	sourcePath: '/uploads/video.mp4',
-// 	thumbnailPath: '/uploads/'
-	
-// });
-// tg.generateOneByPercent(50)
-//   .then(console.log);
 
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -105,7 +98,7 @@ app.post('/add', upload.single('MyVideo'), (req,res, next)=>{
 		}
 		
 		req.getConnection(function(error, conn) {
-			conn.query('INSERT INTO videos SET ?', video, function(err, result) {
+			conn.query('INSERT INTO formations SET ?', video, function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
@@ -161,13 +154,13 @@ app.post('/add', upload.single('MyVideo'), (req,res, next)=>{
 // SHOW  video 
 app.get('/show/(:id)', function(req, res, next){
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM videos WHERE id = ?', [req.params.id], function(err, rows, fields) {
+		conn.query('SELECT * FROM formations WHERE id = ?', [req.params.id], function(err, rows, fields) {
 			if(err) throw err
 			
 			// if video not found
 			if (rows.length <= 0) {
 				req.flash('error', 'video not found with id = ' + req.params.id)
-				res.redirect('/videos')
+				res.redirect('/formations')
 			}
 			else { // if video found
 				// render to views/video/show.ejs template file
